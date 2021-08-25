@@ -23,20 +23,19 @@ mongoose
 
 
 //   Creating blueprint Schema
-
 const articlesSchema = {
     title: String,
     container: String
 };
 
-// Using our blueprint Schema
 
-const Article = mongoose.model('Article', articlesSchema);
+const Article = mongoose.model('Article', articlesSchema); // Using our blueprint Schema
 
+//    Setting up route for all '/articles'
+app.route('/articles')
 
-//    Getting all Posts
-
-app.get('/articles', (req, res) => {
+ //    Getting all Posts
+.get((req, res) => {
     Article.find({}, (err, foundedData) => {
         if (!err) {
             res.send(foundedData);
@@ -44,12 +43,10 @@ app.get('/articles', (req, res) => {
             res.send('Error while fetching data', err);
         }
     });
-});
+})
 
-
-//   Posting  new Post
-
-app.post('/articles', (req, res) => {
+.post((req, res) => {
+    //   Posting  new Post
     let newArticle = new Article({
         title: req.body.title,
         container: req.body.container
@@ -62,12 +59,10 @@ app.post('/articles', (req, res) => {
             res.send('Error occured while adding new Post!', err);
         }
     })
-});
+})
 
-
-//   Deleteding all Posts
-
-app.delete('/articles', (req,res) =>{
+.delete((req,res) =>{
+    //   Deleteding all Posts
     Article.deleteMany({}, function (err) {
         if(!err){
             res.send('Succesfully deleted all Posts!')
@@ -76,7 +71,6 @@ app.delete('/articles', (req,res) =>{
         }
     })
 })
-
 
 //    Listening to port 
 app.listen(port, () => {
